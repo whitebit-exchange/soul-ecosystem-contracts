@@ -82,7 +82,12 @@ contract SoulDrop is Ownable, Pausable {
     }
 
     /**
-     * Save a reward snapshot for specific soul and reset its claim timestamp.
+     * Record a reward snapshot for a specific Soul and reset its claim timestamp.
+     * This function will be called with every HoldAmount attribute change.
+     * If a given Soul has not claimed its reward, it will not be lost, but recorded in this contract as withholdings.
+     * Withholdings represent the already earned but not yet claimed Soul rewards.
+     * A Soul will be eligible to claim its withholdings;
+     * furthermore, it will be used in next reward calculations as default reward.
      * @param soulId target soul id
      */
     function withholdSoulReward(uint256 soulId) external onlyOwner whenNotPaused {
@@ -102,7 +107,7 @@ contract SoulDrop is Ownable, Pausable {
      *  - Sender must be present in souls registry;
      *  - Sender's soul should have IsVerified attribute in attributes registry.
      * If preconditions are met, reward is being calculated and transferred to sender's address.
-     * After each claim, reward state by soul is being reset.
+     * After each claim, reward state by soul is being reset (withholdings, interval start).
      */
     function claim() external whenNotPaused {
         uint256 soulId = soulRegistry.soulOf(_msgSender());
@@ -161,10 +166,15 @@ contract SoulDrop is Ownable, Pausable {
 
     /**
      * Calculate reward for specified interval, hold amount and withholdings.
+     * Rewards calculation operates on the principles of compounding.
+     * It means that the reward accumulated in the previous period
+     * becomes part of the holding body for calculating the next reward.
+     * Every past reward period modifies total reward as following:
+     *  1. reward for single period = (hold amount + all previous rewards) * percent
+     *  2. total reward = total reward + reward for single period.
+     * Withholdings will be considered as the default reward in the holding body.
      * Reward percent depends on hold level, which in turn depends on hold amount.
-     * Single period reward will be added to base amount for calculating next period reward,
-     * so every next period's reward will be greater than previous one.
-     * Initial reward is soul withholdings (previous unclaimed rewards).
+     * Note: the calculation of rewards is performed only for completed holding periods.
      * @param interval Interval for calculating reward (in seconds)
      * @param holdAmount Base amount for calculating
      * @param withholdings Current soul withholdings

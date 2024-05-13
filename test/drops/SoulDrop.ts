@@ -36,6 +36,20 @@ describe("SoulDrop contract", () => {
 
         expect(await contracts.soulDrop.owner()).to.equal(owner.address, "Unexpected contract owner");
         expect(await contracts.soulDrop.paused()).to.equal(false);
+
+        expect(await contracts.soulDrop.percentByHoldLevel(0)).to.equal("0");
+        expect(await contracts.soulDrop.percentByHoldLevel(1)).to.equal("1316973381");
+        expect(await contracts.soulDrop.percentByHoldLevel(2)).to.equal("1316985649");
+        expect(await contracts.soulDrop.percentByHoldLevel(3)).to.equal("1317451809");
+        expect(await contracts.soulDrop.percentByHoldLevel(4)).to.equal("1318187804");
+        expect(await contracts.soulDrop.percentByHoldLevel(5)).to.equal("1319046390");
+        expect(await contracts.soulDrop.percentByHoldLevel(6)).to.equal("1321253816");
+        expect(await contracts.soulDrop.percentByHoldLevel(7)).to.equal("1326770067");
+        expect(await contracts.soulDrop.percentByHoldLevel(8)).to.equal("1335344342");
+        expect(await contracts.soulDrop.percentByHoldLevel(9)).to.equal("1347579478");
+        expect(await contracts.soulDrop.percentByHoldLevel(10)).to.equal("1438828875");
+        expect(await contracts.soulDrop.percentByHoldLevel(11)).to.equal("1677838513");
+        expect(await contracts.soulDrop.percentByHoldLevel(12)).to.equal("0");
     });
 
     it("Should receive funds only from owner", async () => {
