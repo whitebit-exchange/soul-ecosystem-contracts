@@ -27,33 +27,36 @@ contract HoldAmount is SoulAttribute, Ownable {
         if (amount < 200_000000000000000000)
             return 1;
 
-        if (amount < 4_000_000000000000000000)
+        if (amount < 1_500_000000000000000000)
             return 2;
 
-        if (amount < 10_000_000000000000000000)
+        if (amount < 4_000_000000000000000000)
             return 3;
 
-        if (amount < 16_000_000000000000000000)
+        if (amount < 10_000_000000000000000000)
             return 4;
 
-        if (amount < 30_000_000000000000000000)
+        if (amount < 16_000_000000000000000000)
             return 5;
 
-        if (amount < 60_000_000000000000000000)
+        if (amount < 30_000_000000000000000000)
             return 6;
 
-        if (amount < 100_000_000000000000000000)
+        if (amount < 60_000_000000000000000000)
             return 7;
 
-        if (amount < 160_000_000000000000000000)
+        if (amount < 100_000_000000000000000000)
             return 8;
 
-        if (amount < 2_000_000_000000000000000000)
+        if (amount < 160_000_000000000000000000)
             return 9;
 
-        if (amount < 6_000_000_000000000000000000)
+        if (amount < 2_000_000_000000000000000000)
             return 10;
 
-        return 11;
+        if (amount < 6_000_000_000000000000000000)
+            return 11;
+
+        return 12;
     }
 }

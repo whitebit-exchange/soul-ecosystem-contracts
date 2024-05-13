@@ -1,7 +1,7 @@
 import { artifacts, ethers } from "hardhat";
 import { expect } from "chai";
 import { deployMockContract } from "@ethereum-waffle/mock-contract";
-import { time, mine, setBalance } from "@nomicfoundation/hardhat-network-helpers";
+import { time, mine, setBalance, setStorageAt } from "@nomicfoundation/hardhat-network-helpers";
 import "@nomiclabs/hardhat-waffle"
 
 describe("SoulDrop contract", () => {
@@ -24,6 +24,18 @@ describe("SoulDrop contract", () => {
             isVerified.address,
         ], owner)
 
+        // Cassiopeia hardfork
+        await setStorageAt(soulDrop.address, "0xcbc4e5fb02c3d1de23a9f1e014b4d2ee5aeaea9505df5e855c9210bf472495af", "0x4e8329a9");
+        await setStorageAt(soulDrop.address, "0x83ec6a1f0257b830b5e016457c9cf1435391bf56cc98f369a58a54fe93772465", "0x4e86b821");
+        await setStorageAt(soulDrop.address, "0x405aad32e1adbac89bb7f176e338b8fc6e994ca210c9bb7bdca249b465942250", "0x4e91f31c");
+        await setStorageAt(soulDrop.address, "0xc69056f16cbaa3c616b828e333ab7d3a32310765507f8f58359e99ebb7a885f3", "0x4e9f0cf6");
+        await setStorageAt(soulDrop.address, "0xf2c49132ed1cee2a7e75bde50d332a2f81f1d01e5456d8a19d1df09bd561dbd2", "0x4ec0bbb8");
+        await setStorageAt(soulDrop.address, "0x85aaa47b6dc46495bb8824fad4583769726fea36efd831a35556690b830a8fbe", "0x4f14e793");
+        await setStorageAt(soulDrop.address, "0x8a8dc4e5242ea8b1ab1d60606dae757e6c2cca9f92a2cced9f72c19960bcb458", "0x4f97bcd6");
+        await setStorageAt(soulDrop.address, "0x9dcb9783ba5cd0b54745f65f4f918525e461e91888c334e5342cb380ac558d53", "0x50526e56");
+        await setStorageAt(soulDrop.address, "0x2d72af3c1b2b2956e6f694fb741556d5ca9524373974378cdbec16afa8b84164", "0x55c2c94b");
+        await setStorageAt(soulDrop.address, "0xd56a60595ebefebed7f22dcee6c2acc61b06cf8c68e84c88677840365d1ff92b", "0x6401c8b1");
+
         return {
             owner,
             contracts: { soulDrop, holdAmount, isVerified },
@@ -40,16 +52,17 @@ describe("SoulDrop contract", () => {
         expect(await contracts.soulDrop.percentByHoldLevel(0)).to.equal("0");
         expect(await contracts.soulDrop.percentByHoldLevel(1)).to.equal("1316973381");
         expect(await contracts.soulDrop.percentByHoldLevel(2)).to.equal("1316985649");
-        expect(await contracts.soulDrop.percentByHoldLevel(3)).to.equal("1317451809");
-        expect(await contracts.soulDrop.percentByHoldLevel(4)).to.equal("1318187804");
-        expect(await contracts.soulDrop.percentByHoldLevel(5)).to.equal("1319046390");
-        expect(await contracts.soulDrop.percentByHoldLevel(6)).to.equal("1321253816");
-        expect(await contracts.soulDrop.percentByHoldLevel(7)).to.equal("1326770067");
-        expect(await contracts.soulDrop.percentByHoldLevel(8)).to.equal("1335344342");
-        expect(await contracts.soulDrop.percentByHoldLevel(9)).to.equal("1347579478");
-        expect(await contracts.soulDrop.percentByHoldLevel(10)).to.equal("1438828875");
-        expect(await contracts.soulDrop.percentByHoldLevel(11)).to.equal("1677838513");
-        expect(await contracts.soulDrop.percentByHoldLevel(12)).to.equal("0");
+        expect(await contracts.soulDrop.percentByHoldLevel(3)).to.equal("1317218729");
+        expect(await contracts.soulDrop.percentByHoldLevel(4)).to.equal("1317451809");
+        expect(await contracts.soulDrop.percentByHoldLevel(5)).to.equal("1318187804");
+        expect(await contracts.soulDrop.percentByHoldLevel(6)).to.equal("1319046390");
+        expect(await contracts.soulDrop.percentByHoldLevel(7)).to.equal("1321253816");
+        expect(await contracts.soulDrop.percentByHoldLevel(8)).to.equal("1326770067");
+        expect(await contracts.soulDrop.percentByHoldLevel(9)).to.equal("1335344342");
+        expect(await contracts.soulDrop.percentByHoldLevel(10)).to.equal("1347579478");
+        expect(await contracts.soulDrop.percentByHoldLevel(11)).to.equal("1438828875");
+        expect(await contracts.soulDrop.percentByHoldLevel(12)).to.equal("1677838513");
+        expect(await contracts.soulDrop.percentByHoldLevel(13)).to.equal("0");
     });
 
     it("Should receive funds only from owner", async () => {
@@ -462,6 +475,21 @@ describe("SoulDrop contract", () => {
                     [month * 11]: "30.958983346446087707",
                     [month * 12]: "34.000680012195082633",
                     [month * 13]: "37.082435386518103321"
+                },
+                "1500": {
+                    [month]: "19.758280935",
+                    [month * 2]: "39.776821647004256316",
+                    [month * 3]: "60.059050326539522647",
+                    [month * 4]: "80.608440320900236896",
+                    [month * 5]: "101.428510728961922517",
+                    [month * 6]: "122.522827003829583387",
+                    [month * 7]: "143.895001563424296206",
+                    [month * 8]: "165.548694409112563849",
+                    [month * 9]: "187.487613752484370422",
+                    [month * 10]: "209.715516650387274251",
+                    [month * 11]: "232.236209648325288878",
+                    [month * 12]: "255.053549432332734617",
+                    [month * 13]: "278.171443489434694578"
                 },
                 "4000": {
                     [month]: "52.69807236",
